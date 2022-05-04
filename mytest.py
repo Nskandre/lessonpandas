@@ -6,16 +6,18 @@ read_logs = pandas.read_excel('xlsxtest.xlsx')
 
 logs_dict = read_logs.to_dict(orient='records')
 
-data_browser = {}
+# pprint(logs_dict)
 
-test_date = logs_dict[0]['Дата посещения']
+data_browser, browser_rating = {}, {}
+
+# create dict 'data_browser'
+for i in logs_dict:
+    browser_rating[i['Браузер']] = browser_rating.get(i['Браузер'], 0) + 1
+    if i['Браузер'] in data_browser:
+        data_browser[i['Браузер']][str(i['Дата посещения'].month)] = data_browser[i['Браузер']].get(str(i['Дата посещения'].month), 0) + 1
+    else:
+        data_browser[i['Браузер']] = {str(i['Дата посещения'].month): data_browser.get(str(i['Дата посещения'].month), 0) + 1}
 
 
-# for i in logs_dict:
-#     data_browser[i.get('Браузер')]: {(i.get('Дата посещения').month): }
-#     print(i.get('Браузер'))
-
-
-pprint(logs_dict)
-# print(logs_dict[0]['Дата посещения'])
-# print(test_date.month, type(test_date))
+pprint(data_browser)
+pprint(browser_rating)
